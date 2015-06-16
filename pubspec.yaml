@@ -1,0 +1,10 @@
+name: websockets
+description: A generic WebSocket interface.
+version: 0.0.0
+author: Steven Roose <stevenroose@gmail.com>
+homepage: https://github.com/stevenroose/dart-websockets
+environment:
+  sdk: '>=1.0.0 <2.0.0'
+dependencies:
+dev_dependencies:
+  test: '>=0.12.0 <0.13.0'
