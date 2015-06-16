@@ -21,8 +21,9 @@ class HtmlWebSocket extends WebSocketBase {
   static Future<HtmlWebSocket> connect(String url,
                                      {Iterable<String> protocols,
                                      Map<String, dynamic> headers}) async {
-    var ws = new html.WebSocket(url, protocols);
     //TODO throw when headers is not null?
+    var ws = new html.WebSocket(url, protocols);
+    await ws.onOpen.first;
     return new HtmlWebSocket(ws);
   }
 

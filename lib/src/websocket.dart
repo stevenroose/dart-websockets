@@ -43,7 +43,8 @@ abstract class WebSocket implements StreamSink, Stream {
 
   /**
    * Create a new WebSocket connection. The URL supplied in [url]
-   * must use the scheme `ws` or `wss`.
+   * must use the scheme `ws` or `wss` and can be either of type
+   * [:String:] or [:Uri:].
    *
    * The [protocols] argument is specifying the subprotocols the
    * client is willing to speak.
@@ -71,7 +72,7 @@ abstract class WebSocket implements StreamSink, Stream {
    * !!! The [headers] field is not supported in browsers. Browsers add their
    * own headers when establishing the WebSocket.
    */
-  static Future<WebSocket> connect(String url,
+  static Future<WebSocket> connect(url,
                                    {Iterable<String> protocols,
                                    Map<String, dynamic> headers}) {
     io.assertSupported("IoWebSocket");

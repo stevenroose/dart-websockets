@@ -16,10 +16,10 @@ class IoWebSocket extends WebSocketBase {
     _inner = innerWebSocket;
   }
 
-  static Future<IoWebSocket> connect(String url,
+  static Future<IoWebSocket> connect(url,
                                      {Iterable<String> protocols,
                                      Map<String, dynamic> headers}) async {
-    var ws = await io.connectNewWebSocket(url, protocols: protocols, headers: headers);
+    var ws = await io.connectNewWebSocket(url.toString(), protocols: protocols, headers: headers);
     return new IoWebSocket(ws);
   }
 
