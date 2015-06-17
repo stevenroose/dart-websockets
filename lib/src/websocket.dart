@@ -132,4 +132,9 @@ abstract class WebSocket implements StreamSink, Stream {
    */
   Future addStream(Stream stream);
 
+  /**
+   * The URL this WebSocket is connected to.
+   */
+  Uri get url;
+
 }

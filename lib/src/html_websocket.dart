@@ -23,6 +23,7 @@ class HtmlWebSocket extends WebSocketBase {
                                      Map<String, dynamic> headers}) async {
     //TODO throw when headers is not null?
     var ws = new html.WebSocket(url, protocols);
+    // make sure we are connected
     await ws.onOpen.first;
     return new HtmlWebSocket(ws);
   }
@@ -114,6 +115,8 @@ class HtmlWebSocket extends WebSocketBase {
       _inner.send(errorEvent.toString());
 
   Future get done => _inner.onClose.first;
+
+  Uri get url => Uri.parse(_inner.url);
 
 }
 

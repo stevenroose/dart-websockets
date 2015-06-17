@@ -8,19 +8,20 @@ import "websocket_base.dart";
 
 
 class IoWebSocket extends WebSocketBase {
-  var _inner;
+  final dynamic _inner;
+  final Uri _url;
 
-  IoWebSocket(innerWebSocket) {
+  IoWebSocket(this._inner, this._url) {
     io.assertSupported("dart:io.WebSocket");
-    assert(io.isWebSocketInstance(innerWebSocket));
-    _inner = innerWebSocket;
+    assert(io.isWebSocketInstance(_inner));
   }
 
   static Future<IoWebSocket> connect(url,
                                      {Iterable<String> protocols,
                                      Map<String, dynamic> headers}) async {
     var ws = await io.connectNewWebSocket(url.toString(), protocols: protocols, headers: headers);
-    return new IoWebSocket(ws);
+    if(url is! Uri) url = Uri.parse(url);
+    return new IoWebSocket(ws, url);
   }
 
   // WebSocket
@@ -60,5 +61,7 @@ class IoWebSocket extends WebSocketBase {
       _inner.addError(errorEvent, stackTrace);
 
   Future get done => _inner.done;
+
+  Uri get url => _url;
 
 }
