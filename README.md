@@ -27,7 +27,7 @@ main() async {
 ### For creating libraries
 
 Because, currently, VM users and browser users use different classes (this will change in the future), platform-
-independent libraries cannot create WebSocket instances themselves. That's why we provided the [:WebSocketConnector:]
+independent libraries cannot create WebSocket instances themselves. That's why we provided the `WebSocketConnector`
 typedef that libraries can use to create WebSockets.
 
 This is how an API-wrapper that consumes a WebSocket can be defined and used:
@@ -57,7 +57,7 @@ class MyApiWrapper {
 }
 ```
 
-The user of this wrapper simply passes the [:WebSocket.connect:] method to the API-wrapper class.
+The user of this wrapper simply passes the `WebSocket.connect` method to the API-wrapper class.
 
 ```dart
 import "package:myapi/myapi.dart";
@@ -73,7 +73,7 @@ main() async {
 
 ## Using on the Browser
 
-In the browser, the [:BrowserWebSocket:] is used instead of the standard [:WebSocket:] class. That's the only 
+In the browser, the `BrowserWebSocket` is used instead of the standard `WebSocket` class. That's the only
 difference:
 
 For the API-wrapper from the previous example:
