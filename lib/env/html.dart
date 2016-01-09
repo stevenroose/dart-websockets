@@ -9,9 +9,9 @@ library websockets.env.html;
 import "dart:async";
 import "dart:html" as html;
 
-import "../src/websocket_base.dart";
 import "../src/environments/html/html_websocket_impl.dart";
 
+// this import seems unused, but is necessary for the env to work
 import "../src/environments/html/constructor_helper.dart";
 
 

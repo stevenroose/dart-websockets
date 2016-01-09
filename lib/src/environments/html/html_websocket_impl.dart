@@ -108,3 +108,6 @@ class HtmlWebSocketImpl extends WebSocketBase {
   Uri get url => Uri.parse(_inner.url);
 
 }
+
+UnsupportedError _noBrowserSupport(String component) =>
+  new UnsupportedError("$component is not supported in dart:html");

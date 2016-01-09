@@ -9,7 +9,6 @@ library websockets.env.io;
 import "dart:async";
 import "dart:io" as io;
 
-import "../src/websocket_base.dart";
 import "../src/environments/io/io_websocket_impl.dart";
 
 
