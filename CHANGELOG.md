@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0
+
+- Completely reworked the mirrors code to make WebSocket.connect work for dart:html
+- It is now also easier to add new environments that WebSocket.connect can work with
+- BrowserWebSocket class is removed
+- WebSocketConnector is removed
+
 ## 0.1.1
 
 - Added url getter
