@@ -1,10 +1,10 @@
 name: websockets
 description: A platform-independent WebSocket library.
-version: 0.2.0+1
+version: 0.2.0+2
 author: Steven Roose <stevenroose@gmail.com>
 homepage: https://github.com/stevenroose/dart-websockets
 environment:
-  sdk: '>=1.0.0 <2.0.0'
+  sdk: '>=1.9.1 <2.0.0'
 dependencies:
 dev_dependencies:
   test: any
