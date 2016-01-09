@@ -1,9 +1,8 @@
 
-@TestOn("browser")
+@TestOn("vm")
 
 import "package:test/test.dart";
 
-import "package:websockets/env/html.dart";
 import "package:websockets/websockets.dart";
 
 

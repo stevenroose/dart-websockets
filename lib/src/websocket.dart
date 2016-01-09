@@ -8,8 +8,9 @@ library websockets.websocket;
 
 import "dart:async";
 
-import "io.dart" as io;
-import "io_websocket.dart";
+import "environments/environment_exception.dart";
+import "environments/html/env_html.dart" as env_html;
+import "environments/io/env_io.dart" as env_io;
 
 
 /**
@@ -79,9 +80,23 @@ abstract class WebSocket implements StreamSink, Stream {
    */
   static Future<WebSocket> connect(url,
                                    {Iterable<String> protocols,
-                                   Map<String, dynamic> headers}) {
-    io.assertSupported("IoWebSocket");
-    return IoWebSocket.connect(url, protocols: protocols, headers: headers);
+                                   Map<String, dynamic> headers}) async {
+    // first try environments explicitly loaded by user
+    if(env_io.present) {
+      return env_io.newWebSocketInstance(url, protocols, headers);
+    }
+    if(env_html.present) {
+      return env_html.newWebSocketInstance(url, protocols, headers);
+    }
+    // then try environments that are supported
+    if(env_io.supported) {
+      return env_io.newWebSocketInstance(url, protocols, headers);
+    }
+    if(env_html.present) {
+      return env_html.newWebSocketInstance(url, protocols, headers);
+    }
+    throw new EnvironmentException("No working environment detected. "
+      "You can enable environment by importing it, f.e. import \"package:websockets/env/html.dart\"");
   }
 
   /**

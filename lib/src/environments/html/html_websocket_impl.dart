@@ -3,35 +3,19 @@
  * Copyright (c) 2016 Steven Roose
  */
 
-library websockets.html_client;
+library websockets.environments.html.html_websocket_impl;
 
 
 import "dart:async";
-import "dart:html" as html;
 
-import "websocket_base.dart";
+import "../../websocket_base.dart";
 
 
-class HtmlWebSocket extends WebSocketBase {
-  html.WebSocket _inner;
+class HtmlWebSocketImpl extends WebSocketBase {
+  final dynamic _inner;
 
-  HtmlWebSocket([innerWebSocket]) {
-    if(innerWebSocket == null) {
-      throw new UnsupportedError("Use the static connect method instead");
-    }
-    assert(innerWebSocket is html.WebSocket);
-    _inner = innerWebSocket;
-  }
+  HtmlWebSocketImpl(this._inner);
 
-  static Future<HtmlWebSocket> connect(String url,
-                                     {Iterable<String> protocols,
-                                     Map<String, dynamic> headers}) async {
-    //TODO throw when headers is not null?
-    var ws = new html.WebSocket(url, protocols);
-    // make sure we are connected
-    await ws.onOpen.first;
-    return new HtmlWebSocket(ws);
-  }
 
   int _closeCode;
   String _closeReason;
@@ -40,7 +24,7 @@ class HtmlWebSocket extends WebSocketBase {
 
   Duration get pingInterval => null;
   set pingInterval(Duration pingInterval) =>
-      throw _noBrowserSupport("pingInterval");
+    throw _noBrowserSupport("pingInterval");
 
   int get readyState => _inner.readyState;
 
@@ -52,7 +36,7 @@ class HtmlWebSocket extends WebSocketBase {
 
   String get closeReason => _closeReason;
 
-  Future close([int code, String reason]) async => _inner.close(code, reason);
+  Future close([int code = 1000, String reason]) async => _inner.close(code, reason);
 
   void add(data) => _inner.send(data);
 
@@ -67,9 +51,9 @@ class HtmlWebSocket extends WebSocketBase {
   StreamSubscription _errorSubscription;
   StreamSubscription _messageSubscription;
   StreamSubscription listen(void onData(event),
-                            { Function onError,
-                            void onDone(),
-                            bool cancelOnError}) {
+    { Function onError,
+    void onDone(),
+    bool cancelOnError}) {
     if(_upstreamListenerController == null) {
       void onListen() {
         _errorSubscription = _inner.onError.listen((error) {
@@ -90,15 +74,15 @@ class HtmlWebSocket extends WebSocketBase {
         }
       }
       _upstreamListenerController = new StreamController.broadcast(onListen: onListen,
-                                                           onCancel: onCancel);
+        onCancel: onCancel);
       _closeSubscription = _inner.onClose.listen((close) {
         _closed(close.code, close.reason);
       });
     }
     return _upstreamListenerController.stream.listen(onData,
-                                             onError: onError,
-                                             onDone: onDone,
-                                             cancelOnError: cancelOnError);
+      onError: onError,
+      onDone: onDone,
+      cancelOnError: cancelOnError);
   }
 
   void _closed(int code, String reason) {
@@ -117,13 +101,10 @@ class HtmlWebSocket extends WebSocketBase {
   // StreamSink
 
   void addError(errorEvent, [StackTrace stackTrace]) =>
-      _inner.send(errorEvent.toString());
+    _inner.send(errorEvent.toString());
 
   Future get done => _inner.onClose.first;
 
   Uri get url => Uri.parse(_inner.url);
 
 }
-
-UnsupportedError _noBrowserSupport(String component) =>
-    new UnsupportedError("$component is not supported by browsers");
