@@ -3,6 +3,10 @@
  * Copyright (c) 2016 Steven Roose
  */
 
+/**
+ * A websocket.env library should only have a single class declared!
+ * One extending WebSocket and providing a static connect() method!
+ */
 library websockets.env.io;
 
 

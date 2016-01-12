@@ -3,7 +3,7 @@
  * Copyright (c) 2016 Steven Roose
  */
 
-library websockets.websocket_base;
+library websockets.src.websocket_base;
 
 import 'dart:async';
 

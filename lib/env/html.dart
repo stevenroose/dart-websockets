@@ -3,6 +3,10 @@
  * Copyright (c) 2016 Steven Roose
  */
 
+/**
+ * A websocket.env library should only have a single class declared!
+ * One extending WebSocket and providing a static connect() method!
+ */
 library websockets.env.html;
 
 
@@ -10,9 +14,6 @@ import "dart:async";
 import "dart:html" as html;
 
 import "../src/environments/html/html_websocket_impl.dart";
-
-// this import seems unused, but is necessary for the env to work
-import "../src/environments/html/constructor_helper.dart";
 
 
 class HtmlWebSocket extends HtmlWebSocketImpl {

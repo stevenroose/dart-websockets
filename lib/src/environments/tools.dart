@@ -3,19 +3,56 @@
  * Copyright (c) 2016 Steven Roose
  */
 
-library websockets.env_helpers.tools;
-
-@MirrorsUsed(targets: const [], symbols: const ["connect", "protocols", "headers"])
-import "dart:mirrors";
+library websockets.environments.tools;
 
 
-LibraryMirror findLibrary(Symbol symbol) {
+@GlobalQuantifyCapability(_ENV_LIBRARY_PREFIX, reflector)
+import "package:reflectable/reflectable.dart";
+
+import "environment_exception.dart";
+
+
+const _ENV_LIBRARY_PREFIX = r"websockets.env.";
+
+
+const Reflectable reflector = const _WebSocketsEnvReflector();
+
+
+LibraryMirror findLibrary(String library) {
   try {
-    return currentMirrorSystem().findLibrary(symbol);
+    return reflector.findLibrary(library);
   } catch (_) {
     // TODO(nweiz): narrow the catch clause when issue 18532 is fixed.
     return null;
   }
+}
+
+/**
+ * Since we got a GlobalQuantityCapability on all environment libraries,
+ * we can find one if it is included.
+ */
+bool _envTested = false;
+LibraryMirror _presentEnv;
+LibraryMirror get presentEnv {
+  if(!_envTested) {
+    _presentEnv = reflector.libraries.values.firstWhere(
+      (mirror) => mirror.qualifiedName.startsWith(_ENV_LIBRARY_PREFIX),
+      orElse: () => null);
+    _envTested = true;
+  }
+  return _presentEnv;
+}
+
+createWebSocketWithPresentEnv(String url,
+  Iterable<String> protocols,
+  Map<String, dynamic> headers) {
+  LibraryMirror env = presentEnv;
+  if(env == null)
+    throw exception("No environment present!");
+  // env classes only have a single class declared
+  assert(env.declarations.length == 1);
+  return newWebSocketInstance(env.declarations[env.declarations.keys.single],
+    url, protocols, headers);
 }
 
 /**
@@ -24,6 +61,15 @@ LibraryMirror findLibrary(Symbol symbol) {
 newWebSocketInstance(ClassMirror envClass, String url,
   Iterable<String> protocols,
   Map<String, dynamic> headers) =>
-  envClass.invoke(const Symbol("connect"), [url],
+  envClass.invoke("connect", [url],
     { const Symbol("protocols"): protocols,
-      const Symbol("headers"): headers}).reflectee;
+      const Symbol("headers"): headers});
+
+
+EnvironmentException exception(String message) =>
+    new EnvironmentException(message);
+
+class _WebSocketsEnvReflector extends Reflectable {
+  const _WebSocketsEnvReflector()
+    : super(libraryCapability, staticInvokeCapability, declarationsCapability);
+}
