@@ -15,7 +15,7 @@ import "environment_exception.dart";
 const _ENV_LIBRARY_PREFIX = r"websockets.env.";
 
 
-const Reflectable reflector = const _WebSocketsEnvReflector();
+const Reflectable reflector = const WebSocketsEnvReflector();
 
 
 LibraryMirror findLibrary(String library) {
@@ -69,7 +69,7 @@ newWebSocketInstance(ClassMirror envClass, String url,
 EnvironmentException exception(String message) =>
     new EnvironmentException(message);
 
-class _WebSocketsEnvReflector extends Reflectable {
-  const _WebSocketsEnvReflector()
+class WebSocketsEnvReflector extends Reflectable {
+  const WebSocketsEnvReflector()
     : super(libraryCapability, staticInvokeCapability, declarationsCapability);
 }
