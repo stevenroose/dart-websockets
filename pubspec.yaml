@@ -15,10 +15,5 @@ dev_dependencies:
 
 transformers:
 - reflectable:
-    reflectable/src/transform_import:
-      $include:
-        - lib/websockets.dart
-        - lib/env/html.dart
-        - lib/env/io.dart
     entry_points:
       - test/html_test.dart
