@@ -17,3 +17,5 @@ transformers:
 - reflectable:
     entry_points:
       - test/html_test.dart
+- test/pub_serve:
+    $include: test/**_test{.*,}.dart
