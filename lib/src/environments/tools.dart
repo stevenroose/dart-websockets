@@ -12,7 +12,8 @@ import "package:reflectable/reflectable.dart";
 import "environment_exception.dart";
 
 
-const _ENV_LIBRARY_PREFIX = r"websockets.env.";
+const _ENV_LIBRARY_PREFIX = r"^websockets\.env\..*$";
+final _ENV_LIBRARY_PREFIX_REGEX = new RegExp(_ENV_LIBRARY_PREFIX);
 
 
 const Reflectable reflector = const WebSocketsEnvReflector();
@@ -36,7 +37,7 @@ LibraryMirror _presentEnv;
 LibraryMirror get presentEnv {
   if(!_envTested) {
     _presentEnv = reflector.libraries.values.firstWhere(
-      (mirror) => mirror.qualifiedName.startsWith(_ENV_LIBRARY_PREFIX),
+      (mirror) => _ENV_LIBRARY_PREFIX_REGEX.hasMatch(mirror.qualifiedName),
       orElse: () => null);
     _envTested = true;
   }
