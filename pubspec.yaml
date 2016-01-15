@@ -16,6 +16,9 @@ dev_dependencies:
 transformers:
 - reflectable:
     entry_points:
-      - test/html_test.dart
+      - test/html_with_env.dart
+      - test/html_without_env.dart
+      - test/io_with_env.dart
+      - test/io_without_env.dart
 - test/pub_serve:
     $include: test/**_test{.*,}.dart
