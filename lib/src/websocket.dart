@@ -89,7 +89,7 @@ abstract class WebSocket implements StreamSink, Stream {
       return env_html.newWebSocketInstance(url, protocols, headers);
     }
     throw tools.exception("No working environment detected. "
-        "You can enable environment by importing it, f.e. import \"package:websockets/env/html.dart\"");
+        "You can enable environment by importing either dart:io or dart:html");
   }
 
   /**
