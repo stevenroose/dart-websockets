@@ -9,8 +9,4 @@ import 'dart:async';
 
 import "websocket.dart";
 
-abstract class WebSocketBase extends Stream implements WebSocket {
-
-
-
-}
+abstract class WebSocketBase extends Stream implements WebSocket {}

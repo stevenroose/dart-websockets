@@ -4,11 +4,9 @@
  */
 library websockets.environments.io.io_websocket_impl;
 
-
 import "dart:async";
 
 import "../../websocket_base.dart";
-
 
 class IoWebSocketImpl extends WebSocketBase {
   final dynamic _inner;
@@ -40,20 +38,16 @@ class IoWebSocketImpl extends WebSocketBase {
   // Stream
 
   StreamSubscription listen(void onData(event),
-    { Function onError,
-    void onDone(),
-    bool cancelOnError}) =>
-    _inner.listen(onData, onError: onError,
-      onDone: onDone,
-      cancelOnError: cancelOnError);
+          {Function onError, void onDone(), bool cancelOnError}) =>
+      _inner.listen(onData,
+          onError: onError, onDone: onDone, cancelOnError: cancelOnError);
 
   // StreamSink
 
   void addError(errorEvent, [StackTrace stackTrace]) =>
-    _inner.addError(errorEvent, stackTrace);
+      _inner.addError(errorEvent, stackTrace);
 
   Future get done => _inner.done;
 
   Uri get url => _url;
-
 }

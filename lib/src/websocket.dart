@@ -5,14 +5,12 @@
 
 library websockets.src.websocket;
 
-
 import "dart:async";
 
 import "environments/tools.dart" as tools;
 
 import "environments/html/env_html.dart" as env_html;
 import "environments/io/env_io.dart" as env_io;
-
 
 /**
  * Generic WebSocket interface that can be used in the Dart VM as well as in the Browser.
@@ -28,7 +26,6 @@ abstract class WebSocket implements StreamSink, Stream {
   static const int OPEN = 1;
   static const int CLOSING = 2;
   static const int CLOSED = 3;
-
 
   /**
    * Set and get the interval for sending ping signals. If a ping message is not
@@ -80,20 +77,19 @@ abstract class WebSocket implements StreamSink, Stream {
    * own headers when establishing the WebSocket.
    */
   static Future<WebSocket> connect(url,
-                                   {Iterable<String> protocols,
-                                   Map<String, dynamic> headers}) async {
-    if(tools.presentEnv != null) {
+      {Iterable<String> protocols, Map<String, dynamic> headers}) async {
+    if (tools.presentEnv != null) {
       return tools.createWebSocketWithPresentEnv(url, protocols, headers);
     }
     // then try environments that are supported
-    if(env_io.supported) {
+    if (env_io.supported) {
       return env_io.newWebSocketInstance(url, protocols, headers);
     }
-    if(env_html.supported) {
+    if (env_html.supported) {
       return env_html.newWebSocketInstance(url, protocols, headers);
     }
     throw tools.exception("No working environment detected. "
-      "You can enable environment by importing it, f.e. import \"package:websockets/env/html.dart\"");
+        "You can enable environment by importing it, f.e. import \"package:websockets/env/html.dart\"");
   }
 
   /**
@@ -153,5 +149,4 @@ abstract class WebSocket implements StreamSink, Stream {
    * The URL this WebSocket is connected to.
    */
   Uri get url;
-
 }

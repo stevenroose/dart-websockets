@@ -5,9 +5,7 @@
 
 library websockets.environments.exception;
 
-
 class EnvironmentException implements Exception {
-
   final String message;
 
   EnvironmentException(String this.message);

@@ -5,17 +5,14 @@
 
 library websockets.environments.html.html_websocket_impl;
 
-
 import "dart:async";
 
 import "../../websocket_base.dart";
-
 
 class HtmlWebSocketImpl extends WebSocketBase {
   final dynamic _inner;
 
   HtmlWebSocketImpl(this._inner);
-
 
   int _closeCode;
   String _closeReason;
@@ -24,7 +21,7 @@ class HtmlWebSocketImpl extends WebSocketBase {
 
   Duration get pingInterval => null;
   set pingInterval(Duration pingInterval) =>
-    throw _noBrowserSupport("pingInterval");
+      throw _noBrowserSupport("pingInterval");
 
   int get readyState => _inner.readyState;
 
@@ -36,7 +33,8 @@ class HtmlWebSocketImpl extends WebSocketBase {
 
   String get closeReason => _closeReason;
 
-  Future close([int code = 1000, String reason]) async => _inner.close(code, reason);
+  Future close([int code = 1000, String reason]) async =>
+      _inner.close(code, reason);
 
   void add(data) => _inner.send(data);
 
@@ -51,10 +49,8 @@ class HtmlWebSocketImpl extends WebSocketBase {
   StreamSubscription _errorSubscription;
   StreamSubscription _messageSubscription;
   StreamSubscription listen(void onData(event),
-    { Function onError,
-    void onDone(),
-    bool cancelOnError}) {
-    if(_upstreamListenerController == null) {
+      {Function onError, void onDone(), bool cancelOnError}) {
+    if (_upstreamListenerController == null) {
       void onListen() {
         _errorSubscription = _inner.onError.listen((error) {
           _upstreamListenerController.addError(error);
@@ -66,33 +62,31 @@ class HtmlWebSocketImpl extends WebSocketBase {
         });
       }
       void onCancel() {
-        if(_errorSubscription != null) {
+        if (_errorSubscription != null) {
           _errorSubscription.cancel();
         }
-        if(_messageSubscription != null) {
+        if (_messageSubscription != null) {
           _messageSubscription.cancel();
         }
       }
-      _upstreamListenerController = new StreamController.broadcast(onListen: onListen,
-        onCancel: onCancel);
+      _upstreamListenerController = new StreamController.broadcast(
+          onListen: onListen, onCancel: onCancel);
       _closeSubscription = _inner.onClose.listen((close) {
         _closed(close.code, close.reason);
       });
     }
     return _upstreamListenerController.stream.listen(onData,
-      onError: onError,
-      onDone: onDone,
-      cancelOnError: cancelOnError);
+        onError: onError, onDone: onDone, cancelOnError: cancelOnError);
   }
 
   void _closed(int code, String reason) {
     _closeCode = code;
     _closeReason = reason;
     _upstreamListenerController.close();
-    if(_errorSubscription != null) {
+    if (_errorSubscription != null) {
       _errorSubscription.cancel();
     }
-    if(_messageSubscription != null) {
+    if (_messageSubscription != null) {
       _messageSubscription.cancel();
     }
     _closeSubscription.cancel();
@@ -101,13 +95,12 @@ class HtmlWebSocketImpl extends WebSocketBase {
   // StreamSink
 
   void addError(errorEvent, [StackTrace stackTrace]) =>
-    _inner.send(errorEvent.toString());
+      _inner.send(errorEvent.toString());
 
   Future get done => _inner.onClose.first;
 
   Uri get url => Uri.parse(_inner.url);
-
 }
 
 UnsupportedError _noBrowserSupport(String component) =>
-  new UnsupportedError("$component is not supported in dart:html");
+    new UnsupportedError("$component is not supported in dart:html");
