@@ -72,5 +72,6 @@ EnvironmentException exception(String message) =>
 
 class WebSocketsEnvReflector extends Reflectable {
   const WebSocketsEnvReflector()
-    : super(libraryCapability, staticInvokeCapability, declarationsCapability);
+      : super(libraryCapability, staticInvokeCapability, declarationsCapability,
+            newInstanceCapability);
 }

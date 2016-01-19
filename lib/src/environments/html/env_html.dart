@@ -6,7 +6,7 @@
 library websockets.environments.html.env_html;
 
 
-@GlobalQuantifyCapability(r"^dart.html.WebSocket$", tools.reflector)
+@GlobalQuantifyCapability(r"^dart.dom.html.WebSocket$", tools.reflector)
 import "package:reflectable/reflectable.dart";
 
 import "../tools.dart" as tools;

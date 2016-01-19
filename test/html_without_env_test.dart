@@ -7,6 +7,7 @@
 library websockets.test.html_without_env;
 
 import "package:test/test.dart";
+import "dart:html";
 
 import "tests_to_run.dart" as tests;
 
