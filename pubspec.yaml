@@ -4,20 +4,9 @@ version: 0.2.1+1
 author: Steven Roose <stevenroose@gmail.com>
 homepage: https://github.com/stevenroose/dart-websockets
 environment:
-  sdk: '>=1.12.0 <2.0.0'
+  sdk: '>=1.19.1 <2.0.0'
 
 dependencies:
-  reflectable: ^0.5.4
 
 dev_dependencies:
   test: any
-
-transformers:
-- reflectable:
-    entry_points:
-      - test/html_with_env_test.dart
-      - test/html_without_env_test.dart
-      - test/io_with_env_test.dart
-      - test/io_without_env_test.dart
-- test/pub_serve:
-    $include: test/**_test{.*,}.dart

@@ -1,4 +1,3 @@
-
 library websockets.test.tests;
 
 import "dart:async";
@@ -16,7 +15,7 @@ void main() {
   tearDown(() async {
     try {
       await ws.close();
-    } on StateError catch(_) {
+    } on StateError catch (_) {
       // already closed in test
     }
   });
