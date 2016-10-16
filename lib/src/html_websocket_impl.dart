@@ -3,11 +3,12 @@
  * Copyright (c) 2016 Steven Roose
  */
 
-library websockets.environments.html.html_websocket_impl;
+library websockets.impl.html;
 
 import "dart:async";
+import "dart:html" as html;
 
-import "../../websocket_base.dart";
+import "websocket_base.dart";
 
 class HtmlWebSocketImpl extends WebSocketBase {
   final dynamic _inner;
@@ -61,6 +62,7 @@ class HtmlWebSocketImpl extends WebSocketBase {
           _upstreamListenerController.add(data);
         });
       }
+
       void onCancel() {
         if (_errorSubscription != null) {
           _errorSubscription.cancel();
@@ -69,6 +71,7 @@ class HtmlWebSocketImpl extends WebSocketBase {
           _messageSubscription.cancel();
         }
       }
+
       _upstreamListenerController = new StreamController.broadcast(
           onListen: onListen, onCancel: onCancel);
       _closeSubscription = _inner.onClose.listen((close) {
@@ -104,3 +107,11 @@ class HtmlWebSocketImpl extends WebSocketBase {
 
 UnsupportedError _noBrowserSupport(String component) =>
     new UnsupportedError("$component is not supported in dart:html");
+
+Future<HtmlWebSocketImpl> connect(String url,
+    {Iterable<String> protocols, Map<String, dynamic> headers}) async {
+  var ws = new html.WebSocket(url, protocols);
+  // make sure we are connected
+  await ws.onOpen.first;
+  return new HtmlWebSocketImpl(ws);
+}

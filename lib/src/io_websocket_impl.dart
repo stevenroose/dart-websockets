@@ -2,11 +2,12 @@
  * The MIT License (MIT)
  * Copyright (c) 2016 Steven Roose
  */
-library websockets.environments.io.io_websocket_impl;
+library websockets.impl.io;
 
 import "dart:async";
+import "dart:io" as io;
 
-import "../../websocket_base.dart";
+import "websocket_base.dart";
 
 class IoWebSocketImpl extends WebSocketBase {
   final dynamic _inner;
@@ -50,4 +51,12 @@ class IoWebSocketImpl extends WebSocketBase {
   Future get done => _inner.done;
 
   Uri get url => _url;
+}
+
+Future<IoWebSocketImpl> connect(url,
+    {Iterable<String> protocols, Map<String, dynamic> headers}) async {
+  if (url is! Uri) url = Uri.parse(url);
+  var ws = await io.WebSocket
+      .connect(url.toString(), protocols: protocols, headers: headers);
+  return new IoWebSocketImpl(ws, url);
 }

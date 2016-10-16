@@ -3,16 +3,16 @@
  * Copyright (c) 2016 Steven Roose
  */
 
-@TestOn("vm")
-library websockets.test.io_without_env;
+@TestOn("browser")
+library websockets.test.html;
 
 import "package:test/test.dart";
-import "dart:io";
+import "dart:html";
 
 import "tests_to_run.dart" as tests;
 
 main() {
-  group("io_without_env", () {
+  group("html", () {
     tests.main();
   });
 }

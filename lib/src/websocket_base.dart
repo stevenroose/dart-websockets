@@ -3,10 +3,10 @@
  * Copyright (c) 2016 Steven Roose
  */
 
-library websockets.src.websocket_base;
+library websockets.impl.base;
 
 import 'dart:async';
 
-import "websocket.dart";
+import "../websockets.dart";
 
 abstract class WebSocketBase extends Stream implements WebSocket {}
